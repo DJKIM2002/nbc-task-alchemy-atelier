@@ -129,12 +129,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AlchemyWorkshop.h" />
+    <ClInclude Include="IRecipeManager.h" />
+    <ClInclude Include="IStockManager.h" />
     <ClInclude Include="PotionRecipe.h" />
+    <ClInclude Include="RecipeManager.h" />
+    <ClInclude Include="StockManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlchemyWorkshop.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PotionRecipe.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
