@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Dongju Kim
 
 #include <Windows.h>
+
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -15,6 +16,7 @@ static bool IsOnlySpaces(const string& str);
 static void AddRecipeMenu(AlchemyWorkshop& myWorkshop);
 static void SearchRecipeMenu(AlchemyWorkshop& myWorkshop);
 static void DispensePotionMenu(AlchemyWorkshop& myWorkshop);
+static void ReturnPotionMenu(AlchemyWorkshop& myWorkshop);
 
 int main() {
   AlchemyWorkshop myWorkshop;
@@ -38,7 +40,7 @@ int main() {
     cin >> choice;
 
     if (cin.fail()) {
-      cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
+      cout << "* 잘못된 입력입니다. 숫자를 입력해주세요.\n";
       cin.clear();
       cin.ignore(10000, '\n');
       continue;
@@ -57,11 +59,14 @@ int main() {
       case 4:
         DispensePotionMenu(myWorkshop);
         break;
+      case 5:
+        ReturnPotionMenu(myWorkshop);
+        break;
       case 6:
         cout << "공방 문을 닫습니다...\n";
         return 0;
       default:
-        cout << "잘못된 선택입니다. 다시 시도하세요.";
+        cout << "* 잘못된 선택입니다. 다시 시도하세요.";
         break;
     }
     Sleep(1500);
@@ -82,6 +87,11 @@ static void AddRecipeMenu(AlchemyWorkshop& myWorkshop) {
 
   if (IsOnlySpaces(name)) {
     cout << "* 물약 이름은 공백일 수 없습니다. [레시피 추가]를 취소합니다.\n";
+    return;
+  }
+
+  if (myWorkshop.SearchRecipeByName(name)) {
+    cout << "* 이미 존재하는 레시피 이름입니다! [레시피 추가]를 취소합니다.\n";
     return;
   }
 
@@ -113,7 +123,7 @@ static void AddRecipeMenu(AlchemyWorkshop& myWorkshop) {
   if (!ingredients_input.empty()) {
     myWorkshop.AddRecipe(name, ingredients_input);
   } else {
-    cout << ">> 재료가 입력되지 않아 [레시피 추가]를 취소합니다.\n";
+    cout << "* 재료가 입력되지 않아 [레시피 추가]를 취소합니다.\n";
   }
 }
 
@@ -129,7 +139,7 @@ static void SearchRecipeMenu(AlchemyWorkshop& myWorkshop) {
   if (cin.fail()) {
     cin.clear();
     cin.ignore(10000, '\n');
-    cout << "잘못된 입력입니다.\n";
+    cout << "* 잘못된 입력입니다.\n";
     return;
   }
   cin.ignore(10000, '\n');
@@ -223,4 +233,12 @@ static void DispensePotionMenu(AlchemyWorkshop& myWorkshop) {
   } else {
     cout << "* 잘못된 선택입니다. 메인 메뉴로 돌아갑니다.\n";
   }
+}
+
+static void ReturnPotionMenu(AlchemyWorkshop& myWorkshop) {
+  string name;
+  cout << "반환할 물약 이름 : ";
+  cin.ignore(10000, '\n');
+  getline(cin, name);
+  myWorkshop.ReturnPotionByName(name);
 }

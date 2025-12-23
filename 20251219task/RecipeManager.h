@@ -19,8 +19,6 @@ class RecipeManager : public IRecipeManager {
   shared_ptr<PotionRecipe> AddRecipe(
       const string& name, const vector<string>& ingredients) override {
     if (FindRecipeByName(name) != nullptr) {
-      cout << "* 이미 존재하는 레시피 이름입니다! [레시피 추가]를 "
-              "취소합니다.\n";
       return nullptr;
     }
     auto newRecipe = make_shared<PotionRecipe>(name, ingredients);
